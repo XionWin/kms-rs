@@ -1,16 +1,16 @@
 use crate::{initializer::EglContextOutsideInitTrait, utility, Context};
 
-pub fn begin<T1, T2>(device: Option<&str>, init_func: T1, update_func: T2)
+pub fn init<T1, T2>(device: Option<&str>, init_func: T1, update_func: T2)
 where
     T1: Fn(&Context),
-    T2: Fn(&Context),
+    T2: Fn(&Context)
 {
     // let default_video_card_info = utility::get_default_video_card_info().unwrap();
     let selected_video_card_info = match utility::get_video_card_info(device) {
         Some(card_info) => card_info,
-        None => panic!("Video card not found")
+        None => panic!("Video card not found"),
     };
-    print_info!(
+    print_debug!(
         "selected_video_card_info: {:#?}, fd: {:#?}",
         selected_video_card_info.path,
         selected_video_card_info.fd
@@ -21,7 +21,7 @@ where
         conn.get_connection_status() == drm_rs::ConnectionStatus::Connected
     });
     let mode = drm.get_mode();
-    print_info!(
+    print_debug!(
         "actived_mode: {:#?} type: {}",
         mode.get_name(),
         mode.get_mode_type()
@@ -50,7 +50,7 @@ where
         })
         .collect::<Vec<gbm_rs::def::SurfaceFormat>>();
 
-    print_info!(
+    print_debug!(
         "supported_surface_formats: {}",
         supported_surface_format
             .into_iter()
@@ -66,7 +66,7 @@ where
         height,
         true,
     );
-    print_warning!("context: {:#?}", context);
+    print_debug!("context: {:#?}", context);
     context.initialize(&mut gbm, &drm);
 
     let kms_context = Context::new(width, height);
