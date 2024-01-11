@@ -1,18 +1,22 @@
 use crate::{initializer::EglContextOutsideInitTrait, utility, Context};
 
-pub fn begin_with<T1, T2>(init_func: T1, update_func: T2)
+pub fn begin<T1, T2>(device: Option<&str>, init_func: T1, update_func: T2)
 where
     T1: Fn(&Context),
     T2: Fn(&Context),
 {
-    let default_video_card_info = utility::get_default_video_card_info().unwrap();
+    // let default_video_card_info = utility::get_default_video_card_info().unwrap();
+    let selected_video_card_info = match utility::get_video_card_info(device) {
+        Some(card_info) => card_info,
+        None => panic!("Video card not found")
+    };
     print_info!(
-        "default_video_card_path: {:#?}, fd: {:#?}",
-        default_video_card_info.path,
-        default_video_card_info.fd
+        "selected_video_card_info: {:#?}, fd: {:#?}",
+        selected_video_card_info.path,
+        selected_video_card_info.fd
     );
 
-    let fd = default_video_card_info.fd;
+    let fd = selected_video_card_info.fd;
     let drm = drm_rs::core::Drm::new(fd, |conn| {
         conn.get_connection_status() == drm_rs::ConnectionStatus::Connected
     });
