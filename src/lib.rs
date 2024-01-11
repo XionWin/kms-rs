@@ -5,5 +5,7 @@ mod kms;
 mod initializer;
 mod utility;
 mod oflag;
+mod context;
 
 pub use kms::*;
+pub use context::*;

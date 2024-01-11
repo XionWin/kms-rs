@@ -1,6 +1,6 @@
-use crate::{initializer::EglContextOutsideInitTrait, utility};
+use crate::{initializer::EglContextOutsideInitTrait, utility, Context};
 
-pub fn begin_with<T1, T2>(init_func: T1, update_func: T2) where T1: Fn(libc::c_int, libc::c_int), T2: Fn() {
+pub fn begin_with<T1, T2>(init_func: T1, update_func: T2) where T1: Fn(&Context), T2: Fn(&Context) {
 
     let default_video_card_info = utility::get_default_video_card_info().unwrap();
     print_info!(
@@ -53,9 +53,11 @@ pub fn begin_with<T1, T2>(init_func: T1, update_func: T2) where T1: Fn(libc::c_i
     );
     print_warning!("context: {:#?}", context);
     context.initialize(&mut gbm, &drm);
-    init_func(width, height);
+
+    let kms_context = Context::new(width, height);
+    init_func(&kms_context);
     loop {
-        update_func();
+        update_func(&kms_context);
         context.frame_vertical_synchronize(&mut gbm, &drm);
     }
 }
