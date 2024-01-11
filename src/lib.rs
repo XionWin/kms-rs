@@ -1,14 +1,9 @@
-pub fn add(left: usize, right: usize) -> usize {
-    left + right
-}
+#[macro_use]
+extern crate colored_rs;
 
-#[cfg(test)]
-mod tests {
-    use super::*;
+mod kms;
+mod initializer;
+mod utility;
+mod oflag;
 
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
-    }
-}
+pub use kms::*;

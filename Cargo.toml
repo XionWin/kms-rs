@@ -6,3 +6,8 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+libc = "*"
+colored-rs = { path="../../colored-rs" }
+drm-rs = { path="../drm-rs" }
+gbm-rs = { path="../gbm-rs" }
+egl-rs = { path="../egl-rs" }
