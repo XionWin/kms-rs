@@ -1,7 +1,10 @@
 use crate::{initializer::EglContextOutsideInitTrait, utility, Context};
 
-pub fn begin_with<T1, T2>(init_func: T1, update_func: T2) where T1: Fn(&Context), T2: Fn(&Context) {
-
+pub fn begin_with<T1, T2>(init_func: T1, update_func: T2)
+where
+    T1: Fn(&Context),
+    T2: Fn(&Context),
+{
     let default_video_card_info = utility::get_default_video_card_info().unwrap();
     print_info!(
         "default_video_card_path: {:#?}, fd: {:#?}",
@@ -14,7 +17,15 @@ pub fn begin_with<T1, T2>(init_func: T1, update_func: T2) where T1: Fn(&Context)
         conn.get_connection_status() == drm_rs::ConnectionStatus::Connected
     });
     let mode = drm.get_mode();
-    print_info!("actived_mode_name: {:#?}", mode.get_name());
+    print_info!(
+        "actived_mode: {:#?} type: {}",
+        mode.get_name(),
+        mode.get_mode_type()
+            .iter_names()
+            .map(|x| x.0)
+            .collect::<Vec<&'static str>>()
+            .join(" ")
+    );
 
     let (width, height) = (drm.crtc.get_width(), drm.crtc.get_height());
 
