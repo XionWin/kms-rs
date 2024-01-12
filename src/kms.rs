@@ -3,9 +3,8 @@ use crate::{initializer::EglContextOutsideInitTrait, utility, Context};
 pub fn init<T1, T2>(device: Option<&str>, init_func: T1, update_func: T2)
 where
     T1: Fn(&Context),
-    T2: Fn(&Context)
+    T2: Fn(&Context),
 {
-    // let default_video_card_info = utility::get_default_video_card_info().unwrap();
     let selected_video_card_info = match utility::get_video_card_info(device) {
         Some(card_info) => card_info,
         None => panic!("Video card not found"),
