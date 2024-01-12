@@ -11,7 +11,7 @@ where
         None => panic!("Video card not found"),
     };
     print_debug!(
-        "selected_video_card_info: {:#?}, fd: {:#?}",
+        "selected_video_card_info: {:?}, fd: {:?}",
         selected_video_card_info.path,
         selected_video_card_info.fd
     );
@@ -22,7 +22,7 @@ where
     });
     let mode = drm.get_mode();
     print_debug!(
-        "actived_mode: {:#?} type: {}",
+        "actived_mode: {:?} type: {}",
         mode.get_name(),
         mode.get_mode_type()
             .iter_names()
@@ -66,7 +66,7 @@ where
         height,
         true,
     );
-    print_debug!("context: {:#?}", context);
+    print_debug!("context: {:?}", context);
     context.initialize(&mut gbm, &drm);
 
     let kms_context = Context::new(width, height);
