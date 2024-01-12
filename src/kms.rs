@@ -66,7 +66,7 @@ where
         height,
         true,
     );
-    print_debug!("context: {:?}", context);
+    print_debug!("context: {:#?}", context);
     context.initialize(&mut gbm, &drm);
 
     let kms_context = Context::new(width, height);
