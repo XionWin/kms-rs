@@ -9,3 +9,5 @@ mod context;
 
 pub use kms::*;
 pub use context::*;
+
+pub use egl_rs::def::SurfaceType;

@@ -1,6 +1,8 @@
+use egl_rs::def::SurfaceType;
+
 use crate::{initializer::EglContextOutsideInitTrait, utility, Context};
 
-pub fn init<T1, T2>(device: Option<&str>, init_func: T1, update_func: T2)
+pub fn init<T1, T2>(device: Option<&str>, surface_type: SurfaceType, init_func: T1, update_func: T2)
 where
     T1: Fn(&Context),
     T2: Fn(&Context),
@@ -61,6 +63,7 @@ where
     let context: egl_rs::Context = egl_rs::Context::new(
         gbm.get_surface().get_handle(),
         gbm.get_surface().get_device().get_handle(),
+        surface_type,
         width,
         height,
         true,
