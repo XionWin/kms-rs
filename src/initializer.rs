@@ -29,7 +29,10 @@ impl EglContextOutsideInitTrait<gbm_rs::Gbm, drm_rs::Drm> for Context {
             drm_connector_ids.len() as _,
             drm_mode,
         ) {
-            result if result == 0 => result,
+            result if result == 0 => {
+                colored_rs::print_debug!("set_crtc: true");
+                result
+            },
             _ => panic!("surface initialize set_crtc error"),
         };
     }
