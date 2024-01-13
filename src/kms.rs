@@ -1,6 +1,6 @@
 use egl_rs::def::SurfaceType;
 
-use crate::{initializer::EglContextOutsideInitTrait, utility, Context};
+use crate::{vertical_synchronize::VerticalSynchronizeTrait, utility, Context};
 
 pub fn init<T1, T2>(device: Option<&str>, surface_type: SurfaceType, init_func: T1, update_func: T2)
 where
@@ -69,12 +69,12 @@ where
         true,
     );
     print_debug!("context: {:#?}", context);
-    context.initialize(&mut gbm, &drm);
+    context.init_double_buffer(&mut gbm, &drm);
     
     let kms_context = Context::new(width, height);
     init_func(&kms_context);
     loop {
         update_func(&kms_context);
-        context.frame_vertical_synchronize(&mut gbm, &drm);
+        context.wait_vertical_synchronize(&mut gbm, &drm);
     }
 }

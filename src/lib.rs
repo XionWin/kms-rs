@@ -2,7 +2,7 @@
 extern crate colored_rs;
 
 mod kms;
-mod initializer;
+mod vertical_synchronize;
 mod utility;
 mod oflag;
 mod context;

@@ -1,12 +1,12 @@
 use egl_rs::Context;
 
-pub trait EglContextOutsideInitTrait {
-    fn initialize(&self, gbm: &mut gbm_rs::Gbm, drm: &drm_rs::Drm);
-    fn frame_vertical_synchronize(&self, p1: &mut gbm_rs::Gbm, p2: &drm_rs::Drm);
+pub trait VerticalSynchronizeTrait {
+    fn init_double_buffer(&self, gbm: &mut gbm_rs::Gbm, drm: &drm_rs::Drm);
+    fn wait_vertical_synchronize(&self, p1: &mut gbm_rs::Gbm, p2: &drm_rs::Drm);
 }
 
-impl EglContextOutsideInitTrait for Context {
-    fn initialize(&self, gbm: &mut gbm_rs::Gbm, drm: &drm_rs::Drm) {
+impl VerticalSynchronizeTrait for Context {
+    fn init_double_buffer(&self, gbm: &mut gbm_rs::Gbm, drm: &drm_rs::Drm) {
         let surface = gbm.get_surface_mut();
 
         let func = |display: *const libc::c_void, surface: *const libc::c_void| {
@@ -37,7 +37,7 @@ impl EglContextOutsideInitTrait for Context {
         };
     }
 
-    fn frame_vertical_synchronize(&self, gbm: &mut gbm_rs::Gbm, drm: &drm_rs::Drm) {
+    fn wait_vertical_synchronize(&self, gbm: &mut gbm_rs::Gbm, drm: &drm_rs::Drm) {
         let fd = drm.get_fd();
         let crtc_id = drm.crtc.get_id();
         let surface = gbm.get_surface_mut();
