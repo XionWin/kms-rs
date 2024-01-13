@@ -70,9 +70,12 @@ where
     );
     print_debug!("context: {:#?}", context);
     context.initialize(&mut gbm, &drm);
- 
-    for index in 1..20 {
-        println!("p{}: {:#?}", index, drm.get_property(index));
+    
+    // For testing
+    {
+        for index in 1..3 {
+            println!("p{}: {:#?}", index, drm.get_property(index));
+        }
     }
 
     let kms_context = Context::new(width, height);
