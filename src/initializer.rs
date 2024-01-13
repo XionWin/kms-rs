@@ -1,11 +1,11 @@
 use egl_rs::Context;
 
-pub trait EglContextOutsideInitTrait<T1, T2> {
+pub trait EglContextOutsideInitTrait {
     fn initialize(&self, gbm: &mut gbm_rs::Gbm, drm: &drm_rs::Drm);
-    fn frame_vertical_synchronize(&self, p1: &mut T1, p2: &T2);
+    fn frame_vertical_synchronize(&self, p1: &mut gbm_rs::Gbm, p2: &drm_rs::Drm);
 }
 
-impl EglContextOutsideInitTrait<gbm_rs::Gbm, drm_rs::Drm> for Context {
+impl EglContextOutsideInitTrait for Context {
     fn initialize(&self, gbm: &mut gbm_rs::Gbm, drm: &drm_rs::Drm) {
         let surface = gbm.get_surface_mut();
 
