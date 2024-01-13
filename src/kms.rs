@@ -70,7 +70,7 @@ where
     );
     print_debug!("context: {:#?}", context);
     context.initialize(&mut gbm, &drm);
-
+ 
     for index in 1..20 {
         println!("p{}: {:#?}", index, drm.get_property(index));
     }
