@@ -30,7 +30,7 @@ impl VerticalSynchronizeTrait for Context {
             drm_mode,
         ) {
             result if result == 0 => {
-                colored_rs::print_debug!("set_crtc: done");
+                colored_rs::print_debug!("set_crtc: {:#x?}", drm_crtc_id);
                 result
             },
             _ => panic!("surface initialize set_crtc error"),
@@ -47,4 +47,3 @@ impl VerticalSynchronizeTrait for Context {
         }
     }
 }
-
