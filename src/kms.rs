@@ -39,7 +39,7 @@ impl KMS {
     
         let (width, height) = (drm.crtc.get_width(), drm.crtc.get_height());
     
-        let gbm = gbm_rs::Gbm::new(
+        let mut gbm = gbm_rs::Gbm::new(
             fd,
             width,
             height,
@@ -73,6 +73,7 @@ impl KMS {
             height,
             true,
         );
+        context.init_double_buffer(&mut gbm, &drm);
         
         Self {
             drm,
@@ -83,9 +84,6 @@ impl KMS {
         }
     }
 
-    pub fn init_double_buffer(&mut self) {
-        self.context.init_double_buffer(&mut self.gbm, &self.drm);
-    }
     pub fn wait_vertical_synchronize(&mut self) {
         self.context.wait_vertical_synchronize(&mut self.gbm, &self.drm);
     }
@@ -99,13 +97,13 @@ impl KMS {
     }
 }
 
-
 #[macro_export]
 macro_rules! begin_render {
     ($init:ident, $update:ident, $kms:expr) => {
         let mut params = $init($kms);
         loop {
             $update($kms, &mut params);
+            $kms.wait_vertical_synchronize();
         }
     };
 }
