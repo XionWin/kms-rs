@@ -100,9 +100,9 @@ impl KMS {
 #[macro_export]
 macro_rules! begin_render {
     ($init:ident, $update:ident, $kms:expr) => {
-        let mut params = $init($kms);
+        let mut graphic = $init($kms);
         loop {
-            $update($kms, &mut params);
+            $update($kms, &mut graphic);
             $kms.wait_vertical_synchronize();
         }
     };
