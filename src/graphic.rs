@@ -24,4 +24,8 @@ impl<T> Graphic<T> {
     pub fn get_tag(&self) -> &T {
         &self.tag
     }
+
+    pub fn get_tag_mut(&mut self) -> &mut T {
+        &mut self.tag
+    }
 }
