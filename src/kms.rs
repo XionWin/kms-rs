@@ -33,7 +33,7 @@ impl KMS {
             mode.get_mode_type()
                 .iter_names()
                 .map(|x| x.0)
-                .collect::<Vec<&'static str>>()
+                .collect::<Vec<_>>()
                 .join(" ")
         );
     
@@ -54,14 +54,14 @@ impl KMS {
                     .get_device()
                     .is_format_supported(*format, gbm_rs::def::SurfaceFlags::Linear)
             })
-            .collect::<Vec<gbm_rs::def::SurfaceFormat>>();
+            .collect::<Vec<_>>();
     
         print_debug!(
             "supported_surface_formats: {}",
             supported_surface_format
                 .into_iter()
                 .map(|format| format!("{:?} ", format))
-                .collect::<Vec<String>>()
+                .collect::<Vec<_>>()
                 .join(" ")
         );
     

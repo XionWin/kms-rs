@@ -15,7 +15,7 @@ pub fn get_video_card_info(path: Option<&str>) -> Option<VideoCardInfo> {
                     let selected_cards = infos
                         .into_iter()
                         .filter(|x| x.path == str_path)
-                        .collect::<Vec<VideoCardInfo>>();
+                        .collect::<Vec<_>>();
                     let selected_card = selected_cards.first();
                     match selected_card {
                         Some(selected_card) => Some(selected_card.clone()),
@@ -58,7 +58,7 @@ fn get_default_video_card_info() -> Option<VideoCardInfo> {
         })
         .filter(|x| x.is_some())
         .map(|x| x.unwrap())
-        .collect::<Vec<VideoCardInfo>>();
+        .collect::<Vec<_>>();
 
     if validated_card_pathes.is_empty() == false {
         Some(validated_card_pathes.first().unwrap().clone())
@@ -89,7 +89,7 @@ fn get_available_video_card_infos() -> Option<Vec<VideoCardInfo>> {
         })
         .filter(|x| x.is_some())
         .map(|x| x.unwrap())
-        .collect::<Vec<VideoCardInfo>>();
+        .collect::<Vec<_>>();
 
     if validated_card_pathes.is_empty() == false {
         Some(validated_card_pathes)
@@ -99,7 +99,7 @@ fn get_available_video_card_infos() -> Option<Vec<VideoCardInfo>> {
 }
 
 pub fn get_fd(device_path: &str) -> libc::c_int {
-    let mut path = device_path.bytes().collect::<Vec<libc::c_char>>();
+    let mut path = device_path.bytes().collect::<Vec<_>>();
     path.push(b'\0');
     unsafe { libc::open(path.as_ptr(), oflag::OFlag::ReadWrite as _) }
 }
